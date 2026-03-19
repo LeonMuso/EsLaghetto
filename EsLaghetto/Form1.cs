@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 namespace EsLaghetto
 {
-  public partial class Form1 : Form
+    public partial class Form1 : Form
     {
         int[,] grid = new int[10, 40];
         int cellSize = 20;
@@ -30,7 +30,7 @@ namespace EsLaghetto
 
         }
 
-        
+
 
         private void BtnCambia_Click(object sender, EventArgs e)
         {
@@ -65,9 +65,19 @@ namespace EsLaghetto
             }
             else
             {
-                // riempimento tipo secchiello
-                int colorePartenza = grid[row, col];
-                FloodFill(row, col, colorePartenza);
+                if (e.Button == MouseButtons.Right)
+                {
+                    grid[row, col] = 0;
+                }
+                else if (e.Button == MouseButtons.Left)
+                {
+                    // riempimento tipo secchiello
+                    int colorePartenza = grid[row, col];
+                    if (colorePartenza != 2)
+                    {
+                        FloodFill(row, col, colorePartenza);
+                    }
+                }
             }
 
             Invalidate();
