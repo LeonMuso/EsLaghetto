@@ -9,6 +9,7 @@ namespace EsLaghetto
         int cellSize = 20;
 
         bool modalitaDisegno = true; // true = disegno, false = riempimento
+        private bool mousePremuto = false;
 
         Button btnCambia;
         Button btnPulisci;
@@ -17,8 +18,9 @@ namespace EsLaghetto
             this.Text = "Laghetto Paint";
             this.Size = new Size(850, 300);
             this.DoubleBuffered = true;
-
-            this.MouseClick += Form1_MouseClick;
+            this.MouseDown += Form1_MouseDown;
+            this.MouseMove += Form1_MouseMove;
+            this.MouseUp += Form1_MouseUp;
 
             btnCambia = new Button();
             btnCambia.Text = "Passa a RIEMPI";
@@ -42,9 +44,29 @@ namespace EsLaghetto
                 btnCambia.Text = "Passa a DISEGNO";
         }
 
-        private void Form1_MouseClick(object sender, MouseEventArgs e)
+        private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
-            Button btn = sender as Button;
+            mousePremuto = true;
+            Disegna(e);
+        }
+
+        private void Form1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mousePremuto)
+            {
+                Disegna(e);
+            }
+        }
+
+        private void Form1_MouseUp(object sender, MouseEventArgs e)
+        {
+            mousePremuto = false;
+        }
+
+
+
+        public void Disegna(MouseEventArgs e)
+        {
             int col = e.X / cellSize;
             int row = e.Y / cellSize;
 
@@ -59,7 +81,6 @@ namespace EsLaghetto
                 }
                 else if (e.Button == MouseButtons.Left)
                 {
-                    // disegna bordo
                     grid[row, col] = 1;
                 }
             }
